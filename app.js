@@ -3,6 +3,7 @@ var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
+var cors = require('cors')
 
 var router = require('./routes/api')
 
@@ -10,6 +11,12 @@ var app = express()
 
 app.set('view engine', 'jade')
 app.set('views', path.join(__dirname, 'views'))
+
+app.use(
+  cors({
+    origin: '*',
+  })
+)
 
 app.use(logger('dev'))
 app.use(express.json())

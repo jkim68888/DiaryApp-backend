@@ -1,10 +1,10 @@
 var express = require('express')
 var router = express.Router()
 
-var homeRouter = require('./home/home')
-var usersRouter = require('./users/users')
-var postRouter = require('./post/post')
-var postsRouter = require('./posts/posts')
+var homeRouter = require('./home')
+var usersRouter = require('./users')
+var postRouter = require('./post')
+var postsRouter = require('./posts')
 
 router.use('/home', homeRouter)
 router.use('/users', usersRouter)

@@ -1,8 +1,8 @@
-var express = require('express')
-var router = express.Router()
-
-/* GET home page. */
-router.get('/', function (req, res, next) {
+/**
+ * home 조회
+ * GET /api/home
+ */
+export const list = async (req, res, next) => {
   var sample = [
     {
       title: 'title',
@@ -14,6 +14,4 @@ router.get('/', function (req, res, next) {
     },
   ]
   res.json(sample)
-})
-
-module.exports = router
+}
