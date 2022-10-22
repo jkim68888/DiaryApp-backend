@@ -20,14 +20,7 @@ export const read = async (req, res, next) => {
  * POST /api/post/write
  */
 export const write = async (req, res, next) => {
-  var data = req.body
-
-  console.log(data)
-
-  Post.create({
-    title: 'express with msyql',
-    body: 'express with msyql is ...',
-    userId: 'pizzaZoa',
-  })
+  const data = req.body
+  Post.create(data)
   res.json(data)
 }
