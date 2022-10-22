@@ -3,7 +3,7 @@ var router = express.Router()
 
 var post = require('./post.ctrl')
 
-/* GET post page. */
-router.get('/', post.read)
+router.get('/read', post.read)
+router.post('/write', post.write)
 
 module.exports = router

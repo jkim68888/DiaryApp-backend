@@ -1,6 +1,6 @@
 /**
  * home 조회
- * GET /api/home
+ * GET /api/posts/list
  */
 export const list = async (req, res, next) => {
   var sample = [
