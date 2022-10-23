@@ -1,4 +1,5 @@
 const axios = require('axios')
+import { User } from '../../models'
 
 export const kakao = async (req, res, next) => {
   const accessTooken = req.headers['access-token']
@@ -29,6 +30,12 @@ export const kakao = async (req, res, next) => {
     user = payload.data
   }
 
+  const dbdata = {
+    snsid: user.id,
+    nickname: user.properties.nickname,
+  }
+  User.create(dbdata)
+
   // 유저 데이터 저장
 
   // 자체 토큰 발급
@@ -37,6 +44,5 @@ export const kakao = async (req, res, next) => {
     token: jwtToken.token,
   }
 
-  // access token을 JWT를 사용하여 서버만의 토큰으로 발급 후 front에 전달
   res.json(result)
 }
