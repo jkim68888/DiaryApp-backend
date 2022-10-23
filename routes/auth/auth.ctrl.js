@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 export const kakao = async (req, res, next) => {
-  const { access_token } = req.body
+  const { accessTooken } = req.headers
 
   console.log('headers : ', req.headers)
   console.log('body : ', req.body)
@@ -12,7 +12,7 @@ export const kakao = async (req, res, next) => {
       method: 'get',
       url: 'https://kapi.kakao.com/v2/user/me',
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${accessTooken}`,
       },
     })
   } catch (err) {
