@@ -3,8 +3,5 @@
  * GET /api/home
  */
 export const board = async (req, res, next) => {
-  var sample = {
-    title: 'home test',
-  }
-  res.json(sample)
+  res.send('Hello, ', req.state.user.nickname)
 }
