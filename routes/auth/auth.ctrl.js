@@ -1,4 +1,5 @@
 const axios = require('axios')
+const jwt = require('../../lib/jwt')
 import { User } from '../../models'
 
 export const kakao = async (req, res, next) => {
