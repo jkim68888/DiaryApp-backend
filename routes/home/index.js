@@ -4,6 +4,6 @@ import checkToken from '../../lib/checkToken'
 
 var home = require('./home.ctrl')
 
-router.get('/', checkToken, home.board)
+router.post('/', checkToken, home.board)
 
 module.exports = router

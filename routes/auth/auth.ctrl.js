@@ -3,10 +3,10 @@ const jwt = require('../../lib/jwt')
 import { User } from '../../models'
 
 export const kakao = async (req, res, next) => {
-  const accessTooken = req.headers['access-token']
+  const accessToken = req.headers['access-token']
 
   let payload, user
-  console.log('accessTooken : ', accessTooken)
+  console.log('accessToken : ', accessToken)
   console.log('headers : ', req.headers)
   console.log('body : ', req.body)
 
@@ -16,7 +16,7 @@ export const kakao = async (req, res, next) => {
       method: 'get',
       url: 'https://kapi.kakao.com/v2/user/me',
       headers: {
-        Authorization: `Bearer ${accessTooken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
   } catch (err) {
@@ -35,9 +35,9 @@ export const kakao = async (req, res, next) => {
     snsid: user.id,
     nickname: user.properties.nickname,
   }
-  User.create(dbdata)
 
   // 유저 데이터 저장
+  User.create(dbdata)
 
   // 자체 토큰 발급
   const jwtToken = await jwt.sign(user)
