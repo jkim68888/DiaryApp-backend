@@ -1,4 +1,4 @@
-const jwt = require('../../lib/jwt')
+const axios = require('axios')
 
 export const kakao = async (req, res, next) => {
   const { access_token } = req.body
@@ -16,7 +16,7 @@ export const kakao = async (req, res, next) => {
       },
     })
   } catch (err) {
-    console.log(err.response.data)
+    console.log('error : ', err.response.data)
   }
 
   // 유저 데이터 저장
