@@ -3,5 +3,8 @@
  * GET /api/home
  */
 export const board = async (req, res, next) => {
-  res.send('Hello, ', req.state.user.nickname)
+  const data = {
+    nickname: req.user.nickname,
+  }
+  res.json(data)
 }

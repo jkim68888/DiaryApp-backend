@@ -36,8 +36,15 @@ export const kakao = async (req, res, next) => {
     nickname: user.properties.nickname,
   }
 
-  // 유저 데이터 저장
-  User.create(dbdata)
+  // decoded_id를 DB에서 조회하여 사용자 find
+  const ExistUser = await User.findOne({
+    where: { snsid: user.id },
+  })
+
+  if (!ExistUser) {
+    // 유저 데이터 저장
+    User.create(dbdata)
+  }
 
   // 자체 토큰 발급
   const jwtToken = await jwt.sign(user)
