@@ -1,8 +1,8 @@
 var express = require('express')
 var router = express.Router()
-import checkToken from '../../lib/checkToken'
-
 var home = require('./home.ctrl')
+
+import checkToken from '../../lib/checkToken'
 
 router.post('/', checkToken, home.board)
 
