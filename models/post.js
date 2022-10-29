@@ -14,6 +14,10 @@ export default module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: true,
       },
+      datetime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },      
       created_at: {
         type: DataTypes.DATE,
         allowNull: true,
