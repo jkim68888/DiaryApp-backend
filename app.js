@@ -16,7 +16,7 @@ app.set("views", path.join(__dirname, "views"))
 
 app.use(
 	cors({
-		origin: ["http://localhost:4000", "http://192.168.35.167:4000"],
+		origin: ["http://localhost:4000", "http://192.168.35.167:4000","http://10.4.10.109:4000"],
 		preflightContinue: false,
 		credentials: true,
 	})
