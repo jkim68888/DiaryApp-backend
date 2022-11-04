@@ -9,7 +9,7 @@ export const list = async (req, res, next) => {
   let posts
   try {
     posts = await Post.findAll({
-      attributes: ['title','body','userid','created_at'],
+      attributes: ['id','title','body','userid','created_at'],
       where: {
         userid: user.snsid,
       },

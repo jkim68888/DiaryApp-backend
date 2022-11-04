@@ -4,9 +4,22 @@ var post = require('./post.ctrl')
 
 import checkToken from '../../lib/checkToken'
 
+const multer = require('multer')
+
+const storage  = multer.diskStorage({ // 2
+    destination(req, file, cb) {
+      cb(null, 'public/images/');
+    },
+    filename(req, file, cb) {
+      cb(null, `${Date.now()}__${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage: storage }); // 3-2
+
 router.get('/read', post.read)
-router.post('/write', checkToken, post.write)
-router.patch('/update', checkToken, post.update)
+router.post('/write', upload.single('image'), post.write)
+router.patch('/update', checkToken, upload.single('image'), post.update)
 router.delete('/remove', checkToken, post.remove)
 
 module.exports = router
