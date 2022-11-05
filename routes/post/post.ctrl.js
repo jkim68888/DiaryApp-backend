@@ -1,6 +1,7 @@
 // Sequelize
 const { Post } = require('../../models')
 const { Image } = require('../../models')
+const path = require('path');
 var fs = require('fs') //fs 모듈을 사용하겠다.
 
 /**
@@ -9,18 +10,14 @@ var fs = require('fs') //fs 모듈을 사용하겠다.
  */
 export const read = async (req, res, next) => {
   const postId = req.query.id
-  var post, postWithImage
+  const rootPath = path.join(__dirname, path.sep,  '..', path.sep, '..', path.sep)
+  var postRaw
 
   try {
-    post = await Post.findOne({
-      where: { id: postId },
-    })
-  } catch (err) {
-    console.err(err)
-  }
-
-  try {
-    postWithImage = await Post.findAll({
+    postRaw = await Post.findOne({
+      where: {
+        'id': postId
+      },    
       include: [
         {
           model: Image,
@@ -29,17 +26,18 @@ export const read = async (req, res, next) => {
         },
       ],
     })
-    // console.log(postWithImage[0].image.dataValues.path)
-    console.log(postWithImage[0])
   } catch (err) {
     console.error(err)
   }
 
-  post.dataValues.image = fs.readFileSync(
-    process.env.PWD + '/' + postWithImage[0].image.dataValues.path
-  )
+  const postJson = postRaw.toJSON()
 
-  res.json(post)
+  // postJson.imagefile = fs.readFileSync(
+  //   rootPath + postJson.image.path
+  // )
+
+  res.body = postJson
+  res.sendFile(rootPath + postJson.image.path)
 }
 
 /**

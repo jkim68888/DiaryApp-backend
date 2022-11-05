@@ -18,7 +18,7 @@ const storage  = multer.diskStorage({ // 2
 const upload = multer({ storage: storage }); // 3-2
 
 router.get('/read', post.read)
-router.post('/write', upload.single('image'), post.write)
+router.post('/write', checkToken, upload.single('image'), post.write)
 router.patch('/update', checkToken, upload.single('image'), post.update)
 router.delete('/remove', checkToken, post.remove)
 
