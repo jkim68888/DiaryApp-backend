@@ -1,6 +1,6 @@
 export default module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
-    'post',
+    'post',    
     {
       title: {
         type: DataTypes.STRING(100),

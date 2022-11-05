@@ -3,7 +3,7 @@ export default module.exports = (sequelize, DataTypes) => {
       'image',
       {
         postid: {
-          type: DataTypes.STRING(100),
+          type: DataTypes.INTEGER,
           allowNull: true,
         },
         path: {

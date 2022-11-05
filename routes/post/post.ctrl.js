@@ -1,7 +1,11 @@
+import image from '../../models/image';
+import { post } from '../users';
+
 // Sequelize
 const { Post } = require('../../models')
 const { Image } = require('../../models')
 const path = require('path');
+const ip = require('ip');
 var fs = require('fs') //fs 모듈을 사용하겠다.
 
 /**
@@ -10,7 +14,6 @@ var fs = require('fs') //fs 모듈을 사용하겠다.
  */
 export const read = async (req, res, next) => {
   const postId = req.query.id
-  const rootPath = path.join(__dirname, path.sep,  '..', path.sep, '..', path.sep)
   var postRaw
 
   try {
@@ -30,14 +33,15 @@ export const read = async (req, res, next) => {
     console.error(err)
   }
 
-  const postJson = postRaw.toJSON()
+  // TODO : 현재 서버의 ip:port를 path 앞에 추가
+  // post.image.path = 
 
-  // postJson.imagefile = fs.readFileSync(
-  //   rootPath + postJson.image.path
-  // )
-
-  res.body = postJson
-  res.sendFile(rootPath + postJson.image.path)
+  if(postRaw === undefined) {
+    res.send(505)
+  } else {
+    const postJson = postRaw.toJSON()
+    res.json(postJson)
+  }
 }
 
 /**
@@ -46,6 +50,9 @@ export const read = async (req, res, next) => {
  */
 export const write = async (req, res, next) => {
   const data = req.body
+  const address = ip.address() + ":" + process.env.PORT
+  // slice "public/"
+  const imagePath = path.join(address, req.file.path.slice(7,))
   let resPost
 
   try {
@@ -57,7 +64,7 @@ export const write = async (req, res, next) => {
 
   const imageData = {
     postid: resPost.dataValues.id,
-    path: req.file.path,
+    path: imagePath,
   }
 
   try {
@@ -77,6 +84,7 @@ export const write = async (req, res, next) => {
 export const update = async (req, res, next) => {
   const postId = req.query.id
   const data = req.body
+  const path = path.join(IP, ":", process.env.PORT, "/", req.file.path)
 
   try {
     await Post.update(data, {
@@ -89,7 +97,7 @@ export const update = async (req, res, next) => {
 
   const imageData = {
     postid: postId,
-    path: req.file.path,
+    path: path,
   }
 
   // TODO : image가 업데이트될 경우 이전 image는 system에서 삭제 필요
