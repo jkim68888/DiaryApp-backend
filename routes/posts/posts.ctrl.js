@@ -1,4 +1,5 @@
 import { Post } from '../../models'
+const { Image } = require('../../models')
 
 /**
  * home 조회
@@ -6,17 +7,29 @@ import { Post } from '../../models'
  */
 export const list = async (req, res, next) => {
   const user = req.user
-  let posts
+  let postListRaw
   try {
-    posts = await Post.findAll({
+    postListRaw = await Post.findAll({
       attributes: ['id','title','body','userid','created_at'],
       where: {
         userid: user.snsid,
       },
+      include: [
+        {
+          model: Image,
+          attributes: ['path'],
+        },
+      ],      
     })
   } catch (err) {
     console.error(err)
     res.status(505)
   }
-  res.json(posts)
+
+  if(postListRaw === undefined) {
+    res.send(505)
+  } else {
+    // const postJson = postListRaw.toJSON()
+    res.json(postListRaw)
+  }
 }
