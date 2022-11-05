@@ -1,6 +1,3 @@
-import image from '../../models/image';
-import { post } from '../users';
-
 // Sequelize
 const { Post } = require('../../models')
 const { Image } = require('../../models')

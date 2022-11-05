@@ -10,7 +10,7 @@ export const list = async (req, res, next) => {
   let postListRaw
   try {
     postListRaw = await Post.findAll({
-      attributes: ['id','title','body','userid','created_at'],
+      attributes: ['id','title','body','datetime','userid','created_at'],
       where: {
         userid: user.snsid,
       },
