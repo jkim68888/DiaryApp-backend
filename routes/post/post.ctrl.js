@@ -1,6 +1,7 @@
 // Sequelize
 const { Post } = require('../../models')
 const { Image } = require('../../models')
+var fs = require('fs') //fs 모듈을 사용하겠다.
 
 /**
  * post 조회
@@ -8,15 +9,37 @@ const { Image } = require('../../models')
  */
 export const read = async (req, res, next) => {
   const postId = req.query.id
+  var post, postWithImage
 
-  var post = await Post.findOne({
-    where: { id: postId },
-  })
+  try {
+    post = await Post.findOne({
+      where: { id: postId },
+    })
+  } catch (err) {
+    console.err(err)
+  }
 
-  var postwithImage = await Post.hasOne(Image, { foreignKey: 'id', sourceKey: 'postid' })
-  console.log("postwithImage: ", postwithImage)
+  try {
+    postWithImage = await Post.findAll({
+      include: [
+        {
+          model: Image,
+          // foreignKey: 'postid',
+          attributes: ['path'],
+        },
+      ],
+    })
+    // console.log(postWithImage[0].image.dataValues.path)
+    console.log(postWithImage[0])
+  } catch (err) {
+    console.error(err)
+  }
 
-  res.json(postwithImage)
+  post.dataValues.image = fs.readFileSync(
+    process.env.PWD + '/' + postWithImage[0].image.dataValues.path
+  )
+
+  res.json(post)
 }
 
 /**
@@ -27,7 +50,7 @@ export const write = async (req, res, next) => {
   const data = req.body
   let resPost
 
-  try { 
+  try {
     resPost = await Post.create(data)
   } catch (error) {
     console.error(error)
@@ -35,8 +58,8 @@ export const write = async (req, res, next) => {
   }
 
   const imageData = {
-    "postid": resPost.dataValues.id,
-    "path": req.file.path
+    postid: resPost.dataValues.id,
+    path: req.file.path,
   }
 
   try {
@@ -56,7 +79,7 @@ export const write = async (req, res, next) => {
 export const update = async (req, res, next) => {
   const postId = req.query.id
   const data = req.body
-  
+
   try {
     await Post.update(data, {
       where: { id: postId },
@@ -67,8 +90,8 @@ export const update = async (req, res, next) => {
   }
 
   const imageData = {
-    "postid": postId,
-    "path": req.file.path
+    postid: postId,
+    path: req.file.path,
   }
 
   // TODO : image가 업데이트될 경우 이전 image는 system에서 삭제 필요
@@ -105,6 +128,6 @@ export const remove = async (req, res, next) => {
   } catch (error) {
     console.error(error)
     res.send(505)
-  } 
+  }
   res.send(204)
 }

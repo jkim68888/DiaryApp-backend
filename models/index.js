@@ -26,4 +26,17 @@ db.Post = require('./post')(sequelize, Sequelize)
 db.User = require('./user')(sequelize, Sequelize)
 db.Image = require('./image')(sequelize, Sequelize)
 
+db.Post.hasOne(db.Image, { foreignKey: 'postid', sourceKey: 'id' })
+// db.Image.belongsTo(db.Post, {
+//   foreignKey: 'postid',
+//   as: 'id',
+// })
+
+// // companies : landings -> 1:N
+// db.companies.hasMany(db.landings, { as: 'landings' })
+// db.landings.belongsTo(db.companies, {
+//   foreignKey: 'companyId',
+//   as: 'companies',
+// })
+
 module.exports = db
