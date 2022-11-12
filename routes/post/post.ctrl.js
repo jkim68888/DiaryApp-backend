@@ -71,7 +71,7 @@ export const write = async (req, res, next) => {
     res.send(505)
   }
 
-  res.send(204)
+  res.send(resPost.dataValues)
 }
 
 /**
