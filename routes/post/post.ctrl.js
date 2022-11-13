@@ -48,6 +48,9 @@ export const read = async (req, res, next) => {
 export const write = async (req, res, next) => {
   const data = req.body
   const address = ip.address() + ":" + process.env.PORT
+  const user = req.user.id
+
+  data.userid = user.id
   // slice "public/"
   const imagePath = path.join(address, req.file.path.slice(7,))
   let resPost
@@ -82,7 +85,9 @@ export const update = async (req, res, next) => {
   const postId = req.query.id
   const data = req.body
   const path = path.join(IP, ":", process.env.PORT, "/", req.file.path)
+  const user = req.user.id
 
+  data.userid = user.id
   try {
     await Post.update(data, {
       where: { id: postId },
