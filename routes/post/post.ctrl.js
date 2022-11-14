@@ -84,7 +84,8 @@ export const write = async (req, res, next) => {
 export const update = async (req, res, next) => {
   const postId = req.query.id
   const data = req.body
-  const path = path.join(IP, ":", process.env.PORT, "/", req.file.path)
+  const address = ip.address() + ':' + process.env.PORT
+	const imagePath = path.join(address, req.file.path.slice(7))
   const user = req.user.snsid
 
   data.userid = user
@@ -99,7 +100,7 @@ export const update = async (req, res, next) => {
 
   const imageData = {
     postid: postId,
-    path: path,
+    path: imagePath,
   }
 
   // TODO : image가 업데이트될 경우 이전 image는 system에서 삭제 필요
